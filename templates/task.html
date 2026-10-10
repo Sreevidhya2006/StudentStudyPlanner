@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Task - Student Study Planner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>📝 Add New Task</h1>
+
+        <p>Create a study task and set its deadline and priority.</p>
+
+        <form method="POST">
+
+            <input
+                type="text"
+                name="task"
+                placeholder="Enter Task Name"
+                required
+            >
+
+            <br><br>
+
+            <select name="subject" required>
+                <option value="">📚 Select Subject</option>
+
+                {% for subject in subjects %}
+                    <option value="{{ subject.subject_name }}">
+                        {{ subject.subject_name }}
+                    </option>
+                {% endfor %}
+
+                <option value="General">General</option>
+            </select>
+
+            <br><br>
+
+            <input
+                type="date"
+                name="deadline"
+                required
+            >
+
+            <br><br>
+
+            <select name="priority" required>
+                <option value="High">🔴 High Priority</option>
+                <option value="Medium" selected>🟡 Medium Priority</option>
+                <option value="Low">🟢 Low Priority</option>
+            </select>
+
+            <br><br>
+
+            <button type="submit">➕ Add Task</button>
+
+        </form>
+
+        <br>
+
+        <a href="/dashboard">
+            <button>⬅ Back to Dashboard</button>
+        </a>
+
+    </div>
+
+</body>
+</html>

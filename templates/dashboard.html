@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Study Planner - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="dashboard-header">
+            <div>
+                <h1>📚 My Study Dashboard</h1>
+                <p>Plan your studies and track your progress.</p>
+            </div>
+
+            <a href="/logout">
+                <button>🚪 Logout</button>
+            </a>
+        </div>
+
+
+        <div class="summary-cards">
+
+            <div class="summary-card">
+                <h3>📖 Subjects</h3>
+                <h2>{{ subjects|length }}</h2>
+            </div>
+
+            <div class="summary-card">
+                <h3>📝 Total Tasks</h3>
+                <h2>{{ total_tasks }}</h2>
+            </div>
+
+            <div class="summary-card">
+                <h3>✅ Completed</h3>
+                <h2>{{ completed_tasks }}</h2>
+            </div>
+
+            <div class="summary-card">
+                <h3>📊 Progress</h3>
+                <h2>{{ progress }}%</h2>
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <div class="section-header">
+                <h2>📖 My Subjects</h2>
+
+                <a href="/subject">
+                    <button>➕ Add Subject</button>
+                </a>
+            </div>
+
+            {% if subjects %}
+
+                {% for subject in subjects %}
+
+                    <div class="subject-item">
+
+                        <span>📚 {{ subject.subject_name }}</span>
+
+                        <a href="/delete_subject/{{ subject.id }}">
+                            <button>🗑️ Delete</button>
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="empty-message">
+                    No subjects added yet.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="section">
+
+            <div class="section-header">
+                <h2>📝 My Tasks</h2>
+
+                <a href="/task">
+                    <button>➕ Add Task</button>
+                </a>
+            </div>
+
+
+            {% if tasks %}
+
+                {% for task in tasks %}
+
+                    <div class="task-item">
+
+                        <h3>📝 {{ task.task_name }}</h3>
+
+                        <p>📚 Subject: {{ task.subject }}</p>
+
+                        <p>📅 Deadline: {{ task.deadline }}</p>
+
+                        <p>
+
+                            {% if task.priority == "High" %}
+                                🔴 High Priority
+                            {% elif task.priority == "Medium" %}
+                                🟡 Medium Priority
+                            {% else %}
+                                🟢 Low Priority
+                            {% endif %}
+
+                        </p>
+
+                        <p>{{ task.deadline_status }}</p>
+
+
+                        {% if task.completed %}
+
+                            <strong>✅ Completed</strong>
+
+                        {% else %}
+
+                            <a href="/complete/{{ task.id }}">
+                                <button>✅ Mark Complete</button>
+                            </a>
+
+                        {% endif %}
+
+
+                        <a href="/delete/{{ task.id }}">
+                            <button>🗑️ Delete</button>
+                        </a>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="empty-message">
+                    No tasks added yet. Click "Add Task" to create your first study task.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="section">
+
+            <h2>📊 Study Progress</h2>
+
+            <p>
+                {{ completed_tasks }} / {{ total_tasks }} tasks completed
+            </p>
+
+            <div class="progress-container">
+
+                <div class="progress-bar" style="width: {{ progress }}%;">
+                    {{ progress }}%
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
